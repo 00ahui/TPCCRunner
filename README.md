@@ -9,11 +9,11 @@ BUILD:
 This is a maven project developed on codenvy.io, please follow the steps to build the project.
 If you want to use local eclipse with maven to build the project, please replace the project folder.
 
-mvn install:install-file -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=10.2 -Dpackaging=jar -Dfile=/projects/TPCCRunner/lib/ojdbc14.jar
-mvn install:install-file -DgroupId=com.informix -DartifactId=ifxjdbc -Dversion=4.0.3 -Dpackaging=jar -Dfile=/projects/TPCCRunner/lib/ifxjdbc.jar
-mvn install:install-file -DgroupId=com.mysql -DartifactId=mysql-connector-java -Dversion=5.1.7 -Dpackaging=jar -Dfile=/projects/TPCCRunner/lib/mysql-connector-java.jar
-mvn install:install-file -DgroupId=com.microsoft -DartifactId=sqljdbc4 -Dversion=3.0 -Dpackaging=jar -Dfile=/projects/TPCCRunner/lib/sqljdbc4.jar
-mvn install:install-file -DgroupId=com.ibm -DartifactId=db2jcc4 -Dversion=10.1 -Dpackaging=jar -Dfile=/projects/TPCCRunner/lib/db2jcc4.jar
+mvn install:install-file -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=10.2 -Dpackaging=jar -Dfile=/projects/TPCCRunner/lib/ojdbc14.jar <BR>
+mvn install:install-file -DgroupId=com.informix -DartifactId=ifxjdbc -Dversion=4.0.3 -Dpackaging=jar -Dfile=/projects/TPCCRunner/lib/ifxjdbc.jar  <BR>
+mvn install:install-file -DgroupId=com.mysql -DartifactId=mysql-connector-java -Dversion=5.1.7 -Dpackaging=jar -Dfile=/projects/TPCCRunner/lib/mysql-connector-java.jar  <BR>
+mvn install:install-file -DgroupId=com.microsoft -DartifactId=sqljdbc4 -Dversion=3.0 -Dpackaging=jar -Dfile=/projects/TPCCRunner/lib/sqljdbc4.jar  <BR>
+mvn install:install-file -DgroupId=com.ibm -DartifactId=db2jcc4 -Dversion=10.1 -Dpackaging=jar -Dfile=/projects/TPCCRunner/lib/db2jcc4.jar  <BR>
 
 mvn clean install -f /projects/TPCCRunner -Dmaven.test.skip=true
 
