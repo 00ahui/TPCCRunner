@@ -8,6 +8,9 @@ HISTORY:
     
     Version 1.1
         - Support DaMeng database
+        
+    Version 1.2
+        - Support Tibero database
 
 
 
@@ -25,6 +28,7 @@ BUILD:
         mvn install:install-file -DgroupId=com.microsoft -DartifactId=sqljdbc4 -Dversion=3.0 -Dpackaging=jar -Dfile=/projects/TPCCRunner/lib/sqljdbc4.jar
         mvn install:install-file -DgroupId=com.ibm -DartifactId=db2jcc4 -Dversion=10.1 -Dpackaging=jar -Dfile=/projects/TPCCRunner/lib/db2jcc4.jar
         mvn install:install-file -DgroupId=com.dm -DartifactId=Dm7JdbcDriver17 -Dversion=1.0.0 -Dpackaging=jar -Dfile=/projects/TPCCRunner/lib/Dm7JdbcDriver17.jar
+        mvn install:install-file -DgroupId=com.tmax -DartifactId=tibero5-jdbc -Dversion=1.0.0 -Dpackaging=jar -Dfile=/projects/TPCCRunner/lib/tibero5-jdbc.jar
     
     2. Build the project, output to 'target'
         
@@ -40,7 +44,7 @@ RUN:
     Please make the following prepares:
         - Set the connect url, user and password in the loader and slave properties files
         - Set the master-slave connect port (masterPort, default 27891) in the properties files, and configure firewall exceptions
-        - If you use other versions JDBC driver, please replace java classpath with: java -cp TPCCRunner-1.1.jar:lib/somejdbc.jar
+        - If you use other versions JDBC driver, please replace java classpath with: java -cp TPCCRunner-1.2.jar:lib/somejdbc.jar
 
 
 DB2:
@@ -191,7 +195,7 @@ Informix:
 		java -cp TPCCRunner-full.jar wyh.TPCCRunner.Slave conf/example/informix/slave1.properties
 		java -cp TPCCRunner-full.jar wyh.TPCCRunner.Slave conf/example/informix/slave2.properties
 
-DaMeng
+DaMeng:
 
 	1. Create Database
         export PATH=$PATH:$DM_HOME/bin:$DM_HOME/jdk/bin
@@ -231,3 +235,34 @@ DaMeng
 
 		java -cp TPCCRunner-full.jar wyh.TPCCRunner.Slave conf/example/dm/slave1.properties
 		java -cp TPCCRunner-full.jar wyh.TPCCRunner.Slave conf/example/dm/slave2.properties
+
+Tibero:
+
+	1. Create Tablespace
+
+		sqlplus / as sysdba @sql/example/tibero/create_tablespace.sql
+		
+	2. Create User
+
+		sqlplus / as sysdba @sql/example/tibero/create_user.sql
+
+	3. Create Tables
+
+		sqlplus user1/pswd @sql/example/tibero/create_table.sql
+
+	4. Load Data
+		
+		java -cp TPCCRunner-full.jar iomark.TPCCRunner.Loader conf/example/tibero/loader.properties
+
+	5. Create index
+
+		sqlplus user1/pswd @sql/example/tibero/create_index.sql
+
+	6. Run Master
+
+		java -cp TPCCRunner-full.jar iomark.TPCCRunner.Master conf/example/tibero/master.properties
+
+	7. Run Slaves on Clients
+
+		java -cp TPCCRunner-full.jar iomark.TPCCRunner.Slave conf/example/tibero/slave1.properties
+		java -cp TPCCRunner-full.jar iomark.TPCCRunner.Slave conf/example/tibero/slave2.properties
