@@ -1,36 +1,43 @@
-An TPCC workload runner. 
+A TPCC workload generator for OLTP performance test, generally the test should be performed to evaluate the storage performance
 
-Version 1.0
- - Support Oracle, SQL Server, DB2, Informix, MySQL
+
+HISTORY:
+
+    Version 1.0
+        - Support Oracle, SQL Server, DB2, Informix, MySQL
+
 
 
 BUILD:
 
-This is a maven project developed on codenvy.io, please follow the steps to build the project.
-If you want to use local eclipse with maven to build the project, please replace the project folder.
+    This is a maven project developed on codenvy.io, please follow the steps to build the project.
 
-mvn install:install-file -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=10.2 -Dpackaging=jar -Dfile=/projects/TPCCRunner/lib/ojdbc14.jar <BR>
-mvn install:install-file -DgroupId=com.informix -DartifactId=ifxjdbc -Dversion=4.0.3 -Dpackaging=jar -Dfile=/projects/TPCCRunner/lib/ifxjdbc.jar  <BR>
-mvn install:install-file -DgroupId=com.mysql -DartifactId=mysql-connector-java -Dversion=5.1.7 -Dpackaging=jar -Dfile=/projects/TPCCRunner/lib/mysql-connector-java.jar  <BR>
-mvn install:install-file -DgroupId=com.microsoft -DartifactId=sqljdbc4 -Dversion=3.0 -Dpackaging=jar -Dfile=/projects/TPCCRunner/lib/sqljdbc4.jar  <BR>
-mvn install:install-file -DgroupId=com.ibm -DartifactId=db2jcc4 -Dversion=10.1 -Dpackaging=jar -Dfile=/projects/TPCCRunner/lib/db2jcc4.jar  <BR>
-
-mvn clean install -f /projects/TPCCRunner -Dmaven.test.skip=true
+    1. Install JDBC drivers into local Maven reponsitory
+    
+        mvn install:install-file -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=10.2 -Dpackaging=jar -Dfile=/projects/TPCCRunner/lib/ojdbc14.jar
+        mvn install:install-file -DgroupId=com.informix -DartifactId=ifxjdbc -Dversion=4.0.3 -Dpackaging=jar -Dfile=/projects/TPCCRunner/lib/ifxjdbc.jar
+        mvn install:install-file -DgroupId=com.mysql -DartifactId=mysql-connector-java -Dversion=5.1.7 -Dpackaging=jar -Dfile=/projects/TPCCRunner/lib/mysql-connector-java.jar
+        mvn install:install-file -DgroupId=com.microsoft -DartifactId=sqljdbc4 -Dversion=3.0 -Dpackaging=jar -Dfile=/projects/TPCCRunner/lib/sqljdbc4.jar
+        mvn install:install-file -DgroupId=com.ibm -DartifactId=db2jcc4 -Dversion=10.1 -Dpackaging=jar -Dfile=/projects/TPCCRunner/lib/db2jcc4.jar
+    
+    2. Build the project, output to 'target'
+        
+        mvn clean install -f /projects/TPCCRunner -Dmaven.test.skip=true
 
 
 
 RUN:
 
-Goto /projects/TPCCRnner/target.
-For each type of database, following the corresponding steps.
+    Goto /projects/TPCCRunner/target.
+    For each type of database, following the corresponding steps.
 
-Please make the following prepares:
-- set the connect url, user and password in the loader and slave properties files
-- set the master-slave connect port (masterPort, default 27891) in the properties files, and configure firewall exceptions
-- if you use other versions JDBC driver, please replace java classpath with: TPCCRunner-1.0.jar:lib/somejdbc.jar
+    Please make the following prepares:
+        - Set the connect url, user and password in the loader and slave properties files
+        - Set the master-slave connect port (masterPort, default 27891) in the properties files, and configure firewall exceptions
+        - If you use other versions JDBC driver, please replace java classpath with: TPCCRunner-1.0.jar:lib/somejdbc.jar
 
 
-DB2
+DB2:
    
 	1. Create Database
 	
@@ -55,7 +62,7 @@ DB2
                 java -cp TPCCRunner-1.0-full.jar wyh.TPCCRunner.Slave conf/example/db2/slave1.properties
                 java -cp TPCCRunner-1.0-full.jar wyh.TPCCRunner.Slave conf/example/db2/slave2.properties
 
-MySQL
+MySQL:
 
 	1. Create Database
 		
@@ -83,7 +90,7 @@ MySQL
 		java -cp TPCCRunner-1.0-full.jar wyh.TPCCRunner.Slave conf/example/mysql/slave2.properties
 
 
-SQLServer
+SQLServer:
 
 	1. Create Database
 
@@ -115,7 +122,7 @@ SQLServer
 		java -cp TPCCRunner-1.0-full.jar wyh.TPCCRunner.Slave conf\example\sqlserver\slave2.properties
 
 
-Oracle
+Oracle:
 
 	1. Create Tablespace (please change the data file path)
 
@@ -146,10 +153,7 @@ Oracle
 		java -cp TPCCRunner-1.0-full.jar wyh.TPCCRunner.Slave conf/example/oracle/slave1.properties
 		java -cp TPCCRunner-1.0-full.jar wyh.TPCCRunner.Slave conf/example/oracle/slave2.properties
 
-Informix
-
-	username: informix
-	password: <password>
+Informix:
 
 	1. Create dbspace
 
