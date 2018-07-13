@@ -27,7 +27,7 @@ For each type of database, following the corresponding steps.
 Please make the following prepares:
 - set the connect url, user and password in the loader and slave properties files
 - set the master-slave connect port (masterPort, default 27891) in the properties files, and configure firewall exceptions
-- if you use other versions JDBC driver, please replace java classpath with: TPCCRunner-1.0.jar:<your-jdbc-jar>
+- if you use other versions JDBC driver, please replace java classpath with: TPCCRunner-1.0.jar:lib/somejdbc.jar
 
 
 DB2
