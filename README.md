@@ -4,7 +4,10 @@ A TPCC workload generator for OLTP performance test, generally the test should b
 HISTORY:
 
     Version 1.0
-        - Support Oracle, SQL Server, DB2, Informix, MySQL
+        - Support Oracle, SQL Server, DB2, Informix, MySQL databases
+    
+    Version 1.1
+        - Support DaMeng database
 
 
 
@@ -12,13 +15,16 @@ BUILD:
 
     This is a maven project developed on codenvy.io, please follow the steps to build the project.
 
-    1. Install JDBC drivers into local Maven reponsitory
+    1. Install JDBC drivers into local Maven reponsitory 
+        
+        (the following are tested driver, if you want to replace or add jdbc driver, please install the jar file to maven reponsitory, and edit the dependency in pom.xml)
     
         mvn install:install-file -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=10.2 -Dpackaging=jar -Dfile=/projects/TPCCRunner/lib/ojdbc14.jar
         mvn install:install-file -DgroupId=com.informix -DartifactId=ifxjdbc -Dversion=4.0.3 -Dpackaging=jar -Dfile=/projects/TPCCRunner/lib/ifxjdbc.jar
         mvn install:install-file -DgroupId=com.mysql -DartifactId=mysql-connector-java -Dversion=5.1.7 -Dpackaging=jar -Dfile=/projects/TPCCRunner/lib/mysql-connector-java.jar
         mvn install:install-file -DgroupId=com.microsoft -DartifactId=sqljdbc4 -Dversion=3.0 -Dpackaging=jar -Dfile=/projects/TPCCRunner/lib/sqljdbc4.jar
         mvn install:install-file -DgroupId=com.ibm -DartifactId=db2jcc4 -Dversion=10.1 -Dpackaging=jar -Dfile=/projects/TPCCRunner/lib/db2jcc4.jar
+        mvn install:install-file -DgroupId=com.dm -DartifactId=Dm7JdbcDriver17 -Dversion=1.0.0 -Dpackaging=jar -Dfile=/projects/TPCCRunner/lib/Dm7JdbcDriver17.jar
     
     2. Build the project, output to 'target'
         
@@ -34,7 +40,7 @@ RUN:
     Please make the following prepares:
         - Set the connect url, user and password in the loader and slave properties files
         - Set the master-slave connect port (masterPort, default 27891) in the properties files, and configure firewall exceptions
-        - If you use other versions JDBC driver, please replace java classpath with: TPCCRunner-1.0.jar:lib/somejdbc.jar
+        - If you use other versions JDBC driver, please replace java classpath with: java -cp TPCCRunner-1.1.jar:lib/somejdbc.jar
 
 
 DB2:
@@ -47,7 +53,7 @@ DB2:
 	
 	3. Load Data
 
-		java -cp TPCCRunner-1.0-full.jar wyh.TPCCRunner.Loader conf/example/db2/loader.properties
+		java -cp TPCCRunner-full.jar wyh.TPCCRunner.Loader conf/example/db2/loader.properties
 
 	4. Create index
 		
@@ -55,12 +61,12 @@ DB2:
 
 	5. Run Master
 		
-                java -cp TPCCRunner-1.0-full.jar wyh.TPCCRunner.Master conf/example/db2/master.properties
+                java -cp TPCCRunner-full.jar wyh.TPCCRunner.Master conf/example/db2/master.properties
 
     6. Run Slaves on Clients
 
-                java -cp TPCCRunner-1.0-full.jar wyh.TPCCRunner.Slave conf/example/db2/slave1.properties
-                java -cp TPCCRunner-1.0-full.jar wyh.TPCCRunner.Slave conf/example/db2/slave2.properties
+                java -cp TPCCRunner-full.jar wyh.TPCCRunner.Slave conf/example/db2/slave1.properties
+                java -cp TPCCRunner-full.jar wyh.TPCCRunner.Slave conf/example/db2/slave2.properties
 
 MySQL:
 
@@ -74,7 +80,7 @@ MySQL:
 
 	3. Load Data
 		
-		java -cp TPCCRunner-1.0-full.jar wyh.TPCCRunner.Loader conf/example/mysql/loader.properties
+		java -cp TPCCRunner-full.jar wyh.TPCCRunner.Loader conf/example/mysql/loader.properties
 
 	4. Create index
 
@@ -82,12 +88,12 @@ MySQL:
 
 	5. Run Master
 
-		java -cp TPCCRunner-1.0-full.jar wyh.TPCCRunner.Master conf/example/mysql/master.properties
+		java -cp TPCCRunner-full.jar wyh.TPCCRunner.Master conf/example/mysql/master.properties
 
 	6. Run Slaves on Clients
 
-		java -cp TPCCRunner-1.0-full.jar wyh.TPCCRunner.Slave conf/example/mysql/slave1.properties
-		java -cp TPCCRunner-1.0-full.jar wyh.TPCCRunner.Slave conf/example/mysql/slave2.properties
+		java -cp TPCCRunner-full.jar wyh.TPCCRunner.Slave conf/example/mysql/slave1.properties
+		java -cp TPCCRunner-full.jar wyh.TPCCRunner.Slave conf/example/mysql/slave2.properties
 
 
 SQLServer:
@@ -106,7 +112,7 @@ SQLServer:
 		
 	4. Load Data
 		
-		java -cp TPCCRunner-1.0-full.jar wyh.TPCCRunner.Loader conf\example\sqlserver\loader.properties
+		java -cp TPCCRunner-full.jar wyh.TPCCRunner.Loader conf\example\sqlserver\loader.properties
 
 	5. Create index
 
@@ -114,12 +120,12 @@ SQLServer:
 
 	6. Run Master
 
-		java -cp TPCCRunner-1.0-full.jar wyh.TPCCRunner.Master conf\example\sqlserver\master.properties
+		java -cp TPCCRunner-full.jar wyh.TPCCRunner.Master conf\example\sqlserver\master.properties
 
 	7. Run Slaves on Clients
 
-		java -cp TPCCRunner-1.0-full.jar wyh.TPCCRunner.Slave conf\example\sqlserver\slave1.properties
-		java -cp TPCCRunner-1.0-full.jar wyh.TPCCRunner.Slave conf\example\sqlserver\slave2.properties
+		java -cp TPCCRunner-full.jar wyh.TPCCRunner.Slave conf\example\sqlserver\slave1.properties
+		java -cp TPCCRunner-full.jar wyh.TPCCRunner.Slave conf\example\sqlserver\slave2.properties
 
 
 Oracle:
@@ -138,7 +144,7 @@ Oracle:
 
 	4. Load Data
 		
-		java -cp TPCCRunner-1.0-full.jar wyh.TPCCRunner.Loader conf/example/oracle/loader.properties
+		java -cp TPCCRunner-full.jar wyh.TPCCRunner.Loader conf/example/oracle/loader.properties
 
 	5. Create index
 
@@ -146,12 +152,12 @@ Oracle:
 
 	6. Run Master
 
-		java -cp TPCCRunner-1.0-full.jar wyh.TPCCRunner.Master conf/example/oracle/master.properties
+		java -cp TPCCRunner-full.jar wyh.TPCCRunner.Master conf/example/oracle/master.properties
 
 	7. Run Slaves on Clients
 
-		java -cp TPCCRunner-1.0-full.jar wyh.TPCCRunner.Slave conf/example/oracle/slave1.properties
-		java -cp TPCCRunner-1.0-full.jar wyh.TPCCRunner.Slave conf/example/oracle/slave2.properties
+		java -cp TPCCRunner-full.jar wyh.TPCCRunner.Slave conf/example/oracle/slave1.properties
+		java -cp TPCCRunner-full.jar wyh.TPCCRunner.Slave conf/example/oracle/slave2.properties
 
 Informix:
 
@@ -170,7 +176,7 @@ Informix:
 		
 	4. Load Data
 		
-		java -cp TPCCRunner-1.0-full.jar wyh.TPCCRunner.Loader conf/example/informix/loader.properties
+		java -cp TPCCRunner-full.jar wyh.TPCCRunner.Loader conf/example/informix/loader.properties
 
 	5. Create index
 
@@ -178,10 +184,50 @@ Informix:
 
 	6. Run Master
 
-		java -cp TPCCRunner-1.0-full.jar wyh.TPCCRunner.Master conf/example/informix/master.properties
+		java -cp TPCCRunner-full.jar wyh.TPCCRunner.Master conf/example/informix/master.properties
 
 	7. Run Slaves on Clients
 
-		java -cp TPCCRunner-1.0-full.jar wyh.TPCCRunner.Slave conf/example/informix/slave1.properties
-		java -cp TPCCRunner-1.0-full.jar wyh.TPCCRunner.Slave conf/example/informix/slave2.properties
+		java -cp TPCCRunner-full.jar wyh.TPCCRunner.Slave conf/example/informix/slave1.properties
+		java -cp TPCCRunner-full.jar wyh.TPCCRunner.Slave conf/example/informix/slave2.properties
 
+DaMeng
+
+	1. Create Database
+        export PATH=$PATH:$DM_HOME/bin:$DM_HOME/jdk/bin
+		isql
+		SQL>login
+		server name:localhost
+		user name:sysdba
+		password:
+		port:12345
+
+		SQL>create database tpcc datafile '/dmdb/data/tpcc.dbf' size 1024;
+		SQL>set current database tpcc;
+
+	2. Create User
+
+		SQL>create login user1 identified by "pswd" default database tpcc role sys_admin;
+		SQL>create user user1 related by user1;
+		SQL>grant dba to user1;
+
+	3. Create Tables
+
+		isql localhost user1 pswd 12345 tpcc sql/example/dm/create_table.sql
+
+	4. Load Data
+		
+		java -cp TPCCRunner-full.jar wyh.TPCCRunner.Loader conf/example/dm/loader.properties
+
+	5. Create index
+
+		isql localhost user1 pswd 12345 tpcc sql/example/dm/create_index.sql
+
+	6. Run Master
+
+		java -cp TPCCRunner-full.jar wyh.TPCCRunner.Master conf/example/dm/master.properties
+
+	7. Run Slaves on Clients
+
+		java -cp TPCCRunner-full.jar wyh.TPCCRunner.Slave conf/example/dm/slave1.properties
+		java -cp TPCCRunner-full.jar wyh.TPCCRunner.Slave conf/example/dm/slave2.properties
